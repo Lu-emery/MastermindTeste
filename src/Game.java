@@ -3,13 +3,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+
 public class Game {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// Inicializa as cores possíveis
-		HashSet<Character> colors = new HashSet<Character>();
-		colors.add('B'); //Blue
+		ArrayList<Character> colors = new ArrayList<Character>();
+		colors.add('U'); //Blue
 		colors.add('R'); //Red
 		colors.add('G'); //Green
 		colors.add('Y'); //Yellow
@@ -18,41 +19,48 @@ public class Game {
 		
 		//Inicializa a string de entrada
 		String resposta = new String();
+		boolean win = false;
+		int i = 0;
 		
 		// Define a resposta
-		System.out.printf("Insira a sequência de resposta\n> ");
-		resposta = leEntrada(resposta, colors);
-		
-		System.out.println(resposta);
+		resposta = randomAnswer(colors);
 		
 		
 		
 		// Permite 8 tentativas
 		
-		for (int i = 0; i < 3; i++) {
-			System.out.println("Insira a "+i+"ª sequência : \n> ");
+		for (i = 0; i < 12; i++) {
+			int cont = i+1;
+			System.out.printf("Insira a "+cont+"ª sequência : \n> ");
 			String tentativa = new String();
 			tentativa = leEntrada(tentativa, colors);
 		    if (checkWin(pontuaSequencia(tentativa, resposta))) {
-		    	System.out.println("Você Ganhou =D");
+		    	win = true;
 		    	break;
 		    }
 		} 
 		
 		
 		// Dá o resultado
-		System.out.println("Você Perdeu D=");
+		System.out.printf("A resposta era: ");
+		System.out.println(resposta);
+		System.out.printf("Você tentou %d vezes\n", i+1);
+		if (win) {
+	    	System.out.println("Você Ganhou =D");
+		} else {
+			System.out.println("Você Perdeu D=");			
+		}
 		
 		
 		// Encerra tudo
 	}
 	
 	
-	private static String leEntrada(String entrada, HashSet<Character> colors) {
+	private static String leEntrada(String entrada, ArrayList<Character> colors) {
 		int cont = 0;
 		while (!(checkColors(entrada, colors)) || entrada.length() != 4) {
 			if(cont > 0) {
-				System.out.printf("Insira uma sequência válida\n> ");
+				System.out.printf("Insira uma sequência válida\n>> ");
 			}
 			cont++;
 			try{
@@ -72,7 +80,7 @@ public class Game {
 		return entrada;
 	}
 	
-	private static boolean checkColors(String entrada, HashSet<Character> colors) {
+	private static boolean checkColors(String entrada, ArrayList<Character> colors) {
 		for (int i = 0; i<entrada.length(); i++) {
 			if (!(colors.contains(entrada.charAt(i)))) {
 				return false;
@@ -83,12 +91,12 @@ public class Game {
 	
 	private static ArrayList<Character> pontuaSequencia(String tentativa, String resposta) {
 		int i;
-		ArrayList<Boolean> checagemTentativa = new ArrayList<Boolean>(4);
-		ArrayList<Boolean> checagemSaida = new ArrayList<Boolean>(4);
+		ArrayList<Boolean> checagemTentativa = new ArrayList<Boolean>();
+		ArrayList<Boolean> checagemSaida = new ArrayList<Boolean>();
 		
 		for(i = 0; i < 4; i++) {
-			checagemTentativa.set(i, false);
-			checagemSaida.set(i, false);
+			checagemTentativa.add(i, false);
+			checagemSaida.add(i, false);
 		}
 		
 		ArrayList<Character> saida = new ArrayList<Character>();
@@ -118,7 +126,6 @@ public class Game {
 		return saida;
 	}
 
-
 	private static boolean checkWin(ArrayList<Character> pontos) {
 		int cont = 0;
 		for (Character c : pontos) {
@@ -131,5 +138,16 @@ public class Game {
 		}
 		return false;
 	}
+	
+	private static String randomAnswer(ArrayList<Character> colors) {
+		String saida = new String();
+		for(int i = 0; i < 4; i++) {
+			int rand = (int) ((Math.random()*100)%6);
+			saida += colors.get(rand);
+		}
+		
+		return saida;
+	}
+	
 	
 }
