@@ -24,12 +24,16 @@ public class Game {
 		
 		// Define a resposta
 		resposta = randomAnswer(colors);
-		
+		System.out.println(resposta);
 		
 		
 		// Permite 8 tentativas
-		
-		for (i = 0; i < 12; i++) {
+		System.out.printf("Cores possíveis: [ ");
+		for (Character c : colors) {
+			System.out.printf("%c ", c);
+		}
+		System.out.println("]");
+		for (i = 0; i < 3; i++) {
 			int cont = i+1;
 			System.out.printf("Insira a "+cont+"ª sequência : \n> ");
 			String tentativa = new String();
@@ -46,7 +50,7 @@ public class Game {
 		System.out.println(resposta);
 		System.out.printf("Você tentou %d vezes\n", i+1);
 		if (win) {
-	    	System.out.println("Você Ganhou =D");
+	    	System.out.println("Você Ganhou :3");
 		} else {
 			System.out.println("Você Perdeu D=");			
 		}
@@ -112,12 +116,12 @@ public class Game {
 			return saida;
 		}
 		for(i = 0; i < 4; i++) {
-			if(checagemTentativa.get(i) != true) {
-				for(int j = 0; j < 4; j++) {
-					if(tentativa.charAt(i) == resposta.charAt(j) && checagemSaida.get(j) != true) {
+			if (!checagemTentativa.get(i)) {
+				for (int j = 0; j < 4; j++) {
+					if (!checagemSaida.get(j) && tentativa.charAt(i) == resposta.charAt(j)) {
 						saida.add('W');
-						checagemTentativa.set(i, true);
 						checagemSaida.set(i, true);
+						checagemSaida.set(j, true);
 					}
 				}
 			}
